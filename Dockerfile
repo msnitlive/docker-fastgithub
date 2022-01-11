@@ -1,4 +1,4 @@
-FROM storezhang/alpine AS fastgithub
+FROM alpine AS fastgithub
 
 
 # Github加速版本
@@ -6,9 +6,9 @@ ENV FAST_GITHUB_VERSION 2.1.2
 
 
 RUN apk add unzip
-RUN wget https://ghproxy.com/https://github.com/dotnetcore/FastGithub/releases/download/${FAST_GITHUB_VERSION}/fastgithub_linux-x64.zip --output-document /fastgithub_linux-x64.zip
+RUN wget https://ghproxy.com/https://github.com/dotnetcore/FastGithub/releases/download/${FAST_GITHUB_VERSION}/fastgithub_linux-x64.zip --output-document fastgithub_linux-x64.zip
 RUN unzip fastgithub_linux-x64.zip
-RUN mv /fastgithub_linux-x64 /opt/fastgithub
+RUN mv fastgithub_linux-x64 /opt/fastgithub
 RUN chmod +x /opt/fastgithub/fastgithub
 
 
@@ -23,8 +23,14 @@ LABEL architecture="AMD64/x86_64" version="latest" build="2022-01-11"
 LABEL description="Github加速神器Docker镜像，保持最新版本的Fastgithub"
 
 
-# 开放端口，不可改变（程序没有提供改变端口参数）
-EXPOSE 38457
+# 开放端口，此端口在docer/opt/fastgithub/appsettings.json中配置
+EXPOSE 8457
+
+
+# 证书挂载点
+VOLUME /opt/fastgithub/cacert
+# 日志挂载点
+VOLUME /opt/fastgithub/logs
 
 
 # 复制文件
@@ -36,7 +42,15 @@ RUN set -ex \
     \
     \
     \
-    # 安装FastGithub并增加执行权限
+    && apk update \
+    \
+    \
+    \
+    # 安装FastGithub依赖库 \
+    && apk --no-cache add libgcc libstdc++ gcompat icu \
+    \
+    # 安装FastGithub并增加执行权限 \
+    && chown storezhang:storezhang -R /opt/fastgithub \
     && chmod +x /etc/s6/fastgithub/* \
     \
     \
