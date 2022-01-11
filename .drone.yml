@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: Github加速神器
+name: Github加速
 
 
 clone:
@@ -14,6 +14,12 @@ trigger:
 
 
 steps:
+  - name: 拉代码
+    image: dronestock/git
+    pull: if-not-exists
+    settings:
+      verbose: true
+
   - name: 打包Docker到中央仓库
     image: plugins/docker
     pull: if-not-exists
