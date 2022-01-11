@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# 启动FastGithub服务
+/opt/fastgithub/fastgithub
