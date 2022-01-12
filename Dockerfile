@@ -55,6 +55,7 @@ RUN set -ex \
     \
     # 增加监控执行脚本权限
     && chmod +x /etc/s6/fastgithub/* \
+    && chmod +x /etc/s6/polipo/* \
     \
     # 增加代理转换执行权限
     && chown ${USERNAME}:${USERNAME} -R /opt/polipo \
