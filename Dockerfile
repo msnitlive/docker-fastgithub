@@ -35,7 +35,6 @@ VOLUME /opt/fastgithub/logs
 
 
 # 复制文件
-RUN apk --no-cache add libgcc libstdc++ gcompat icu
 COPY --from=fastgithub /opt/fastgithub /opt/fastgithub
 COPY docker /
 
@@ -44,20 +43,20 @@ RUN set -ex \
     \
     \
     \
-    #&& apk update \
+    && apk update \
     \
     \
     \
-    # 安装FastGithub依赖库 \
-    #&& apk --no-cache add libgcc libstdc++ gcompat icu \
+    # 安装FastGithub依赖库
+    && apk --no-cache add libgcc libstdc++ gcompat icu \
     \
-    # 安装FastGithub并增加执行权限 \
+    # 安装FastGithub并增加执行权限
     && chown ${USERNAME}:${USERNAME} -R /opt/fastgithub \
     \
     # 增加监控执行脚本权限
     && chmod +x /etc/s6/fastgithub/* \
     \
-    # 增加代理转换执行权限 \
+    # 增加代理转换执行权限
     && chown ${USERNAME}:${USERNAME} -R /opt/polipo \
     && chmod +x /opt/polipo/polipo \
     \
