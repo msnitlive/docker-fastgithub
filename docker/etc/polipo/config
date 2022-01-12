@@ -6,11 +6,11 @@ proxyAddress = "0.0.0.0"
 proxyPort = 8457
 disableIndexing = false
 disableServersList = false
-diskCacheRoot = /config/cache
+diskCacheRoot = /config/cache/polipo
 localDocumentRoot = ""
 
 # Http父代理
-parentProxy=localhost:38457
+parentProxy=127.0.0.1:38457
 
 chunkHighMark = 50331648
 objectHighMark = 16384

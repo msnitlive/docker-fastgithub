@@ -1,4 +1,7 @@
 #!/bin/bash
 
-# 启动FastGithub服务
-exec su-exec "${USERNAME}" polipo -c /etc/polipo/config
+# 配置
+source ./setup
+
+# 启动代理转换服务
+exec su-exec "${USERNAME}" /opt/polipo/polipo -c /etc/polipo/config

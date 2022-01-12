@@ -50,15 +50,19 @@ RUN set -ex \
     && apk --no-cache add libgcc libstdc++ gcompat icu \
     \
     # 安装FastGithub并增加执行权限 \
-    && chown storezhang:storezhang -R /opt/fastgithub \
+    && chown ${USERNAME}:${USERNAME} -R /opt/fastgithub \
     \
     # 增加监控执行脚本权限
     && chmod +x /etc/s6/fastgithub/* \
     \
-    # 增加代理转换执行权限
-    && chmod +x /usr/bin/polipo \
+    # 增加代理转换执行权限 \
+    && chown ${USERNAME}:${USERNAME} -R /opt/polipo \
+    && chmod +x /opt/polipo/polipo \
     \
     \
     \
     # 清理镜像，减少无用包
     && rm -rf /var/cache/apk/*
+
+
+ENV FASTGITHUB_HOME /config
