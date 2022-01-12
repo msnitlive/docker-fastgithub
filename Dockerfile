@@ -51,7 +51,12 @@ RUN set -ex \
     \
     # 安装FastGithub并增加执行权限 \
     && chown storezhang:storezhang -R /opt/fastgithub \
+    \
+    # 增加监控执行脚本权限
     && chmod +x /etc/s6/fastgithub/* \
+    \
+    # 增加代理转换执行权限
+    && chmod +x /usr/bin/polipo \
     \
     \
     \

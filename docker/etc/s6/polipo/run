@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# 启动FastGithub服务
+exec su-exec "${USERNAME}" polipo -c /etc/polipo/config
