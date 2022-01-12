@@ -1,8 +1,9 @@
-FROM alpine AS fastgithub
+FROM storezhang/alpine AS fastgithub
 
 
 # Github加速版本
 ENV FAST_GITHUB_VERSION 2.1.2
+WORKDIR /opt
 
 
 RUN apk add unzip
@@ -34,6 +35,7 @@ VOLUME /opt/fastgithub/logs
 
 
 # 复制文件
+RUN apk --no-cache add libgcc libstdc++ gcompat icu
 COPY --from=fastgithub /opt/fastgithub /opt/fastgithub
 COPY docker /
 
@@ -42,12 +44,12 @@ RUN set -ex \
     \
     \
     \
-    && apk update \
+    #&& apk update \
     \
     \
     \
     # 安装FastGithub依赖库 \
-    && apk --no-cache add libgcc libstdc++ gcompat icu \
+    #&& apk --no-cache add libgcc libstdc++ gcompat icu \
     \
     # 安装FastGithub并增加执行权限 \
     && chown ${USERNAME}:${USERNAME} -R /opt/fastgithub \

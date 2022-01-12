@@ -3,19 +3,29 @@
 # 创建主目录
 if [ ! -d "${FASTGITHUB_HOME}" ]; then
   su-exec "${USERNAME}" mkdir "${FASTGITHUB_HOME}"
+fi
 
-  # 创建缓存目录
-  su-exec "${USERNAME}" mkdir -p "${FASTGITHUB_HOME}/cache/polipo"
+# 创建缓存目录
+POLIPO_CACHE_HOME=${FASTGITHUB_HOME}/cache/polipo
+if [ ! -d "${POLIPO_CACHE_HOME}" ]; then
+  su-exec "${USERNAME}" mkdir -p "${POLIPO_CACHE_HOME}"
+fi
+
+# 创建日志文件
+POLIPO_LOG_FILE=${FASTGITHUB_HOME}/polipo.log
+if [ ! -f "${POLIPO_LOG_FILE}" ]; then
+  su-exec "${USERNAME}" touch "${POLIPO_LOG_FILE}"
 fi
 
 
 # 将主目录所有者改成系统创建的用户
-logFile=${FASTGITHUB_HOME}/polipo.log
-if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${logFile}" ]; then
+PERMISSION_File=${HOME}/.permission
+if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${PERMISSION_File}" ]; then
   chown -R "${USERNAME}":"${USERNAME}" "${FASTGITHUB_HOME}"
   chmod -R u=rwx,go-rwx "${FASTGITHUB_HOME}"
 
-  if [ ! -f "${logFile}" ]; then
-    su-exec "${USERNAME}" touch "${logFile}"
+  # 创建权限设置文件
+  if [ ! -f "${PERMISSION_File}" ]; then
+    su-exec "${USERNAME}" touch "${PERMISSION_File}"
   fi
 fi
