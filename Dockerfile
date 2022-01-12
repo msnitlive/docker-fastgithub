@@ -1,4 +1,4 @@
-FROM alpine AS fastgithub
+FROM storezhang/alpine AS fastgithub
 
 
 # Github加速版本
